@@ -1,0 +1,64 @@
+{
+  "name": "@spicadust/agent-ttp",
+  "version": "0.1.0",
+  "description": "Render an agent-authored YAML podcast script to a complete MP3 via OpenAI text-to-speech. The agent writes the script; the CLI is a deterministic renderer.",
+  "type": "module",
+  "bin": {
+    "agent-ttp": "dist/cli.js"
+  },
+  "files": [
+    "dist",
+    "skills",
+    "README.md",
+    "LICENSE"
+  ],
+  "engines": {
+    "node": ">=20"
+  },
+  "scripts": {
+    "build": "rm -rf dist && tsc && chmod +x dist/cli.js",
+    "build:bun": "bun build src/cli.ts --compile --outfile dist-bin/agent-ttp",
+    "dev": "tsx src/cli.ts",
+    "start": "node dist/cli.js",
+    "test": "node --import tsx --test --test-concurrency=1 tests/*.test.ts",
+    "test:integration": "npm run build && node --import tsx --test --test-concurrency=1 tests/integration/*.test.ts",
+    "eval": "node --import tsx tests/integration/eval.ts",
+    "typecheck": "tsc --noEmit",
+    "lint": "biome check src tests",
+    "format": "biome format --write src tests",
+    "prepublishOnly": "npm run lint && npm run typecheck && npm test && npm run build"
+  },
+  "keywords": [
+    "tts",
+    "text-to-speech",
+    "podcast",
+    "openai",
+    "cli",
+    "ai",
+    "agent"
+  ],
+  "author": "Qian Zhang",
+  "license": "MIT",
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/AirswitchAsa/agent-ttp.git"
+  },
+  "bugs": {
+    "url": "https://github.com/AirswitchAsa/agent-ttp/issues"
+  },
+  "homepage": "https://github.com/AirswitchAsa/agent-ttp#readme",
+  "publishConfig": {
+    "access": "public"
+  },
+  "dependencies": {
+    "@breezystack/lamejs": "^1.2.7",
+    "commander": "^14.0.0",
+    "yaml": "^2.9.0"
+  },
+  "devDependencies": {
+    "@biomejs/biome": "^2.2.0",
+    "@types/node": "^24.0.0",
+    "tsx": "^4.20.0",
+    "typescript": "^5.9.0"
+  }
+}

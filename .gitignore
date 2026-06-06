@@ -1,0 +1,10 @@
+node_modules/
+dist/
+dist-bin/
+*.log
+.env
+.DS_Store
+*.mp3
+*.wav
+.agent-ttp-cache/
+tests/integration/output/

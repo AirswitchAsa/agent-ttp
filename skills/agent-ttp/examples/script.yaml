@@ -1,0 +1,56 @@
+title: "What is agent-ttp?"
+language: "en"
+style: "clear, friendly, lightly technical"
+model: "gpt-4o-mini-tts-2025-12-15"
+max_chars: 2000
+
+voices:
+  host:
+    voice: cedar
+    instructions: "Warm, clear narrator. Measured, confident pace. No hype."
+  guest:
+    voice: marin
+    instructions: "Curious co-host. Conversational and a little informal."
+
+segments:
+  - id: hook
+    speaker: host
+    intent: hook
+    pause_after_ms: 500
+    text: >
+      Welcome. In about a minute, here is the idea behind agent ttp,
+      a small command line tool for turning a written script into a finished podcast.
+
+  - id: premise
+    speaker: host
+    intent: premise
+    pause_after_ms: 400
+    text: >
+      The key move is a division of labor. An agent does the writing:
+      it reads your source material and rewrites it into a script meant for the ear,
+      not the eye. The command line tool does the rendering: it reads that script
+      and produces the audio. It never tries to understand your source. The agent is
+      the writer, and the tool is the compiler.
+
+  - id: question
+    speaker: guest
+    intent: clarification
+    pause_after_ms: 400
+    text: >
+      So I hand it a script, and it just turns each part into speech and joins them up?
+
+  - id: how
+    speaker: host
+    intent: explanation
+    pause_after_ms: 400
+    text: >
+      Right. You write a short configuration file. Each segment names a speaker,
+      some delivery notes, and the text to say. The tool validates it, calls
+      text to speech for each segment, inserts the pauses you asked for, and stitches
+      everything into a single file. Two speakers taking turns becomes a real dialogue.
+
+  - id: close
+    speaker: guest
+    intent: closing
+    text: >
+      Nice. A writer and a renderer, kept cleanly apart. Let us hear what it sounds like.
