@@ -13,18 +13,40 @@ raw source → an agent rewrites it into a listening-first script → the CLI re
 
 ## Install
 
+Run the CLI directly with `npx` (no install needed):
+
 ```bash
 npx @spicadust/agent-ttp --help
 ```
 
+Install the **agent skill** (teaches a coding agent the author → validate → render workflow) with [`npx skills`](https://github.com/vercel-labs/skills):
+
+```bash
+# project-local
+npx skills add https://github.com/AirswitchAsa/agent-ttp/tree/main/skills/agent-ttp
+# or global, scoped to Claude Code
+npx skills add https://github.com/AirswitchAsa/agent-ttp/tree/main/skills/agent-ttp -g -a claude-code
+```
+
 Requires Node ≥ 20 and an OpenAI API key. No `ffmpeg` — audio is assembled in-process.
+
+## Provide your OpenAI API key
+
+`render` needs a key; `validate` does not. The key is resolved in this order — the first one found wins:
+
+```bash
+npx agent-ttp render … --api-key sk-...   # 1. explicit flag
+export OPENAI_API_KEY=sk-...              # 2. environment variable
+echo 'OPENAI_API_KEY=sk-...' >> .env      # 3. .env in the current directory
+npx agent-ttp api-key set                 # 4. stored in ~/.agent-ttp/config.json (prompts, hidden input)
+```
+
+Check what's active with `npx agent-ttp api-key status`.
 
 ## Quick start
 
 ```bash
-export OPENAI_API_KEY=sk-...           # or: npx agent-ttp api-key set
-
-npx agent-ttp validate script.yaml     # free, no API calls
+npx agent-ttp validate script.yaml     # free, no API calls, no key required
 npx agent-ttp render script.yaml -o episode.mp3
 ```
 
