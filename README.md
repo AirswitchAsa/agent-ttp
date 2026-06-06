@@ -35,10 +35,10 @@ Requires Node ≥ 20 and an OpenAI API key. No `ffmpeg` — audio is assembled i
 `render` needs a key; `validate` does not. The key is resolved in this order — the first one found wins:
 
 ```bash
-npx agent-ttp render … --api-key sk-...   # 1. explicit flag
+npx @spicadust/agent-ttp render … --api-key sk-...   # 1. explicit flag
 export OPENAI_API_KEY=sk-...              # 2. environment variable
 echo 'OPENAI_API_KEY=sk-...' >> .env      # 3. .env in the current directory
-npx agent-ttp api-key set                 # 4. stored in ~/.agent-ttp/config.json (prompts, hidden input)
+npx @spicadust/agent-ttp api-key set                 # 4. stored in ~/.agent-ttp/config.json (prompts, hidden input)
 ```
 
 Check what's active with `npx agent-ttp api-key status`.
@@ -46,8 +46,8 @@ Check what's active with `npx agent-ttp api-key status`.
 ## Quick start
 
 ```bash
-npx agent-ttp validate script.yaml     # free, no API calls, no key required
-npx agent-ttp render script.yaml -o episode.mp3
+npx @spicadust/agent-ttp validate script.yaml     # free, no API calls, no key required
+npx @spicadust/agent-ttp render script.yaml -o episode.mp3
 ```
 
 A worked example is in [`skills/agent-ttp/examples/script.yaml`](skills/agent-ttp/examples/script.yaml).
