@@ -91,24 +91,29 @@ segments:                          # ordered list of spoken blocks
 
 ## CLI reference
 
+The published package is **`@spicadust/agent-ttp`**, so invoke it with the scoped name: `npx @spicadust/agent-ttp <cmd>`. (The first run downloads it; thereafter `npx` uses its cache.) Inside this repo you can instead run `npx tsx src/cli.ts <cmd>`.
+
 ```bash
 # Validate — free, no API key, no network. Always do this first.
-npx agent-ttp validate script.yaml
-npx agent-ttp validate script.yaml --json     # structured report
+npx @spicadust/agent-ttp validate script.yaml
+npx @spicadust/agent-ttp validate script.yaml --json     # structured report
 
 # Render to audio (needs an API key):
-npx agent-ttp render script.yaml -o episode.mp3
-npx agent-ttp render script.yaml -o episode.wav        # zero-encode WAV
+npx @spicadust/agent-ttp render script.yaml -o episode.mp3
+npx @spicadust/agent-ttp render script.yaml -o episode.wav        # zero-encode WAV
 
 # Optional render flags (combine as needed):
+#   --api-key <key>                 OpenAI key for this run (overrides env/.env/config)
 #   --model <id> / --voice <name>   override for every segment
 #   --no-cache                      disable the per-segment cache
 #   --no-normalize                  skip peak normalization
 #   --cache <dir>                   custom cache directory
 #   --bitrate <kbps>                MP3 bitrate, 8–320 (default 64)
 
-# API key:
-npx agent-ttp api-key set         # also: status, unset
+# API key management:
+npx @spicadust/agent-ttp api-key set      # prompt for a key, store in ~/.agent-ttp/config.json
+npx @spicadust/agent-ttp api-key status   # show whether a key is configured and its source
+npx @spicadust/agent-ttp api-key unset    # remove the stored key
 ```
 
 Output format follows the `-o` extension: `.mp3` (default) or `.wav`. A worked example lives at `examples/script.yaml`.
@@ -116,5 +121,15 @@ Output format follows the `-o` extension: `.mp3` (default) or `.wav`. A worked e
 ## When something's missing
 
 - **No Node / `npx`:** the CLI needs Node ≥ 20. If it isn't installed, tell the user to install it — don't improvise a workaround. (Inside this repo you can instead run `npx tsx src/cli.ts <cmd>`.)
-- **No API key:** `validate` still runs and its report shows `api key: MISSING`. `render` fails with a clear message until a key is provided via `OPENAI_API_KEY` (env or `.env`) or `agent-ttp api-key set`. **Never invent a key** — ask the user to set one, then re-run `render`. The validated script needs no rework.
+- **No OpenAI API key:** only `render` needs one — `validate` always runs key-free and its report shows `api key: MISSING`. When no key is found, `render` fails before any network call with:
+
+  > No OpenAI API key found. Run `agent-ttp api-key set`, set OPENAI_API_KEY, or add OPENAI_API_KEY to .env.
+
+  The key is resolved in this order, first match wins:
+  1. `--api-key sk-...` flag on `render`
+  2. `OPENAI_API_KEY` environment variable
+  3. `OPENAI_API_KEY` in a `.env` in the current directory
+  4. stored config via `npx @spicadust/agent-ttp api-key set` (`~/.agent-ttp/config.json`)
+
+  **Never invent, hardcode, or guess a key**, and don't pass `--api-key` with a placeholder. Ask the user to provide one through any of the above, confirm with `api-key status`, then re-run `render`. A `validate`-clean script needs no rework once the key is in place.
 - **A render interrupted partway** re-uses already-synthesized segments from the cache on the next run, so retries are cheap.
