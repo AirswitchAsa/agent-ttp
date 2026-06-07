@@ -1,6 +1,6 @@
 {
   "name": "@spicadust/agent-ttp",
-  "version": "0.1.0",
+  "version": "0.2.0",
   "description": "Render an agent-authored YAML podcast script to a complete MP3 via OpenAI text-to-speech. The agent writes the script; the CLI is a deterministic renderer.",
   "type": "module",
   "bin": {
