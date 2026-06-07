@@ -1,0 +1,56 @@
+title: "The Briefing: Why Your Coffee Costs More"
+language: "en-US"
+style: "crisp, news-briefing tone — informed but not breathless"
+model: "gpt-4o-mini-tts-2025-12-15"
+max_chars: 2000
+
+voices:
+  anchor:
+    voice: cedar
+    instructions: "A measured news anchor. Clear, confident, lightly warm. Lets key numbers land."
+
+segments:
+  - id: hook
+    speaker: anchor
+    intent: hook
+    pause_after_ms: 700
+    text: >
+      If your morning coffee feels more expensive lately, you're not imagining it.
+      Wholesale coffee prices hit a multi-decade high this year — and the story
+      behind that number is really a story about weather.
+
+  - id: orient
+    speaker: anchor
+    intent: orient
+    pause_after_ms: 500
+    text: >
+      Here's why it matters. Two countries, Brazil and Vietnam, grow more than
+      half of the world's coffee between them. When something goes wrong in those
+      two places at the same time, the whole world feels it in the cup.
+
+  - id: body-supply
+    speaker: anchor
+    intent: explanation
+    pause_after_ms: 500
+    text: >
+      And this year, both struggled. Brazil went through its worst drought in
+      roughly seventy years, which damaged the flowering that sets the size of
+      the harvest. Vietnam, meanwhile, swung the other way, with heavy rain
+      disrupting its crop. Two different problems, one result: less coffee.
+
+  - id: body-demand
+    speaker: anchor
+    intent: explanation
+    pause_after_ms: 500
+    text: >
+      At the same time, demand didn't cooperate. Global coffee drinking keeps
+      rising, led by fast-growing demand in Asia. So you have less supply meeting
+      more thirst — and price is simply where those two forces meet.
+
+  - id: close
+    speaker: anchor
+    intent: takeaway
+    text: >
+      The takeaway: the price on your café menu is a weather report in disguise.
+      Until the next few harvests come in steady, that extra dollar is likely
+      here to stay. That's the briefing.

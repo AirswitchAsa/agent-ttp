@@ -87,7 +87,7 @@ segments:                          # ordered list of spoken blocks
 
 **Parameter cascade (most-specific wins):** a segment's `model` / `instructions` / `language` override the voice's, which override the script-level defaults. `speaker` binds the segment to a voice.
 
-**`language` is per-segment.** The API has no language parameter, so the resolved language is carried as a "Speak in …" clause appended to the delivery `instructions` — applied even when you also give explicit instructions. This is what makes **language-learning** episodes work: an English explanation block and a Spanish example block render each in its own language.
+**`language` is per-segment.** The API has no language parameter, so the resolved language is carried as a "Speak in …" clause appended to the delivery `instructions` — applied even when you also give explicit instructions. Common BCP-47 tags are rendered as natural-language names the model follows more reliably (`zh-CN` → "Speak in Mandarin Chinese.", `en-US` → "Speak in American English."); an unmapped tag falls back to "Speak in `<tag>`." Just write the tag — the CLI handles the phrasing. This is what makes **language-learning** episodes work: an English explanation block and a Spanish example block render each in its own language (see `examples/bilingual-language-learning.yaml`).
 
 ## CLI reference
 
@@ -116,7 +116,7 @@ npx @spicadust/agent-ttp api-key status   # show whether a key is configured and
 npx @spicadust/agent-ttp api-key unset    # remove the stored key
 ```
 
-Output format follows the `-o` extension: `.mp3` (default) or `.wav`. A worked example lives at `examples/script.yaml`.
+Output format follows the `-o` extension: `.mp3` (default) or `.wav`. Worked examples live in `examples/`: `script.yaml` (two-voice dialogue), `en-article-briefing.yaml` (single narrator), `zh-paper-summary.yaml` (Mandarin explainer), and `bilingual-language-learning.yaml` (per-segment language override).
 
 ## When something's missing
 

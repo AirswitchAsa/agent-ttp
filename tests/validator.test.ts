@@ -32,6 +32,32 @@ test("empty text is a hard error", () => {
   assert.ok(report.issues.some((i) => i.field === "text" && i.level === "error"));
 });
 
+test("a negative pause_after_ms is a hard error", () => {
+  const script = build({
+    segments: [{ id: "a", speaker: "host", text: "hello there", pause_after_ms: -100 }],
+  });
+  const report = validate(script);
+  assert.ok(hasErrors(report));
+  assert.ok(report.issues.some((i) => i.field === "pause_after_ms" && i.level === "error"));
+});
+
+test("an unusually long pause_after_ms warns but does not block", () => {
+  const script = build({
+    segments: [{ id: "a", speaker: "host", text: "hello there", pause_after_ms: 30000 }],
+  });
+  const report = validate(script);
+  assert.equal(hasErrors(report), false);
+  assert.ok(report.issues.some((i) => i.field === "pause_after_ms" && i.level === "warning"));
+});
+
+test("a reasonable pause_after_ms produces no pause issues", () => {
+  const script = build({
+    segments: [{ id: "a", speaker: "host", text: "hello there", pause_after_ms: 700 }],
+  });
+  const report = validate(script);
+  assert.ok(!report.issues.some((i) => i.field === "pause_after_ms"));
+});
+
 test("instructions on a legacy model is a hard error", () => {
   const script = build({
     model: "tts-1",

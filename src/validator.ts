@@ -4,6 +4,7 @@ import {
   type Issue,
   KNOWN_VOICES,
   LEGACY_MODELS,
+  MAX_REASONABLE_PAUSE_MS,
   RECOMMENDED_MAX_CHARS,
   resolveSegment,
   type Script,
@@ -75,6 +76,27 @@ export function validate(script: Script, options: ValidateOptions = {}): Validat
         field: "speaker",
         message: `Unknown speaker "${segment.speaker}". Define it under \`voices\`.`,
       });
+    }
+
+    // Pause bounds. A negative pause is invalid (it silently becomes no pause
+    // at render); an oversized one is almost always a typo. Checked before the
+    // empty-text bail so it is reported independently of the text content.
+    if (segment.pause_after_ms !== undefined) {
+      if (segment.pause_after_ms < 0) {
+        issues.push({
+          level: "error",
+          segmentId: id,
+          field: "pause_after_ms",
+          message: `pause_after_ms (${segment.pause_after_ms}) must be ≥ 0.`,
+        });
+      } else if (segment.pause_after_ms > MAX_REASONABLE_PAUSE_MS) {
+        issues.push({
+          level: "warning",
+          segmentId: id,
+          field: "pause_after_ms",
+          message: `pause_after_ms (${segment.pause_after_ms}) is unusually long (> ${MAX_REASONABLE_PAUSE_MS} ms); is this intended?`,
+        });
+      }
     }
 
     if (text.length === 0) {

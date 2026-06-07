@@ -1,0 +1,58 @@
+title: "三分钟读懂 Transformer 论文"
+language: "zh-CN"
+style: "沉稳、清晰、像在讲解一篇论文"
+model: "gpt-4o-mini-tts-2025-12-15"
+max_chars: 2000
+
+voices:
+  narrator:
+    voice: cedar
+    instructions: "知性、从容的普通话讲述者。语速平稳，重点处稍作停顿，不夸张。"
+
+segments:
+  - id: hook
+    speaker: narrator
+    intent: hook
+    pause_after_ms: 700
+    text: >
+      二零一七年，有一篇论文用一句话改写了整个人工智能的走向，
+      它的标题就叫《注意力就是你所需要的一切》。
+      它想说的其实很简单：处理语言，也许根本不需要逐字逐句地按顺序读。
+
+  - id: orient
+    speaker: narrator
+    intent: orient
+    pause_after_ms: 500
+    text: >
+      在这之前，主流做法是让模型像人读句子一样，一个词一个词地往后走。
+      这样有两个麻烦：算得慢，因为没法并行；记性差，因为隔得越远的词，越容易被忘掉。
+      这篇论文提出的结构，叫 Transformer，正好把这两个问题一起解决了。
+
+  - id: body-attention
+    speaker: narrator
+    intent: explanation
+    pause_after_ms: 500
+    text: >
+      它的核心机制叫自注意力。你可以这样理解：
+      句子里的每一个词，都会同时看一眼其它所有的词，然后判断谁跟自己最相关。
+      比如在“那只猫没有过马路，因为它太累了”这句话里，
+      模型需要知道“它”指的是猫，而不是马路。
+      自注意力让“它”直接和“猫”建立起一条联系，不用一路传话过去。
+
+  - id: body-parallel
+    speaker: narrator
+    intent: explanation
+    pause_after_ms: 500
+    text: >
+      因为每个词都是同时看全局，所以整句话可以一次性并行处理，
+      不必再排着队一个一个来。这让训练速度大幅提升，
+      也让模型有能力吃下海量的文本。
+      今天我们熟悉的那些大语言模型，几乎全都建立在这个结构之上。
+
+  - id: close
+    speaker: narrator
+    intent: takeaway
+    text: >
+      所以一句话总结：Transformer 用“让每个词直接关注彼此”这一个想法，
+      同时换来了速度和记性。一篇八年前的论文，
+      至今仍然是这一轮人工智能浪潮的地基。

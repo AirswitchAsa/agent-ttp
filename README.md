@@ -41,7 +41,7 @@ echo 'OPENAI_API_KEY=sk-...' >> .env      # 3. .env in the current directory
 npx @spicadust/agent-ttp api-key set                 # 4. stored in ~/.agent-ttp/config.json (prompts, hidden input)
 ```
 
-Check what's active with `npx agent-ttp api-key status`.
+Check what's active with `npx @spicadust/agent-ttp api-key status`.
 
 ## Quick start
 
@@ -50,7 +50,16 @@ npx @spicadust/agent-ttp validate script.yaml     # free, no API calls, no key r
 npx @spicadust/agent-ttp render script.yaml -o episode.mp3
 ```
 
-A worked example is in [`skills/agent-ttp/examples/script.yaml`](skills/agent-ttp/examples/script.yaml).
+Worked examples live in [`skills/agent-ttp/examples/`](skills/agent-ttp/examples/):
+
+| File | What it shows |
+| --- | --- |
+| [`script.yaml`](skills/agent-ttp/examples/script.yaml) | Two-voice dialogue introducing the tool |
+| [`en-article-briefing.yaml`](skills/agent-ttp/examples/en-article-briefing.yaml) | Single-narrator news briefing rewritten from an article |
+| [`zh-paper-summary.yaml`](skills/agent-ttp/examples/zh-paper-summary.yaml) | Mandarin (`zh-CN`) explainer summarizing a paper |
+| [`bilingual-language-learning.yaml`](skills/agent-ttp/examples/bilingual-language-learning.yaml) | Per-segment `language` override — English instruction, Spanish examples |
+
+Validate any of them without an API key: `npx @spicadust/agent-ttp validate skills/agent-ttp/examples/zh-paper-summary.yaml`.
 
 ## Script format (YAML)
 
@@ -84,10 +93,12 @@ override the voice's, which override the script-level defaults. The `speaker` fi
 segment to a named voice — alternate speakers and you get a two-person dialogue for free.
 
 **`instructions` is the only delivery knob** — natural-language direction for tone, accent,
-pace, emotion, and whispering (there is no separate `speed` parameter). **`language` is
-per-segment**: the API has no language field, so language is carried through `instructions`,
-and a single episode can switch languages block to block — which is what makes language-learning
-content possible.
+pace, emotion, and whispering. agent-ttp intentionally exposes no separate `speed` parameter:
+pacing is part of `instructions` (e.g. "speak slowly and clearly"), which keeps one delivery
+model instead of two competing ones. **`language` is per-segment**: the API has no language
+field, so the resolved language is carried through `instructions` as a natural-language clause
+(`zh-CN` → "Speak in Mandarin Chinese."), and a single episode can switch languages block to
+block — which is what makes language-learning content possible.
 
 ### Two kinds of chunking, kept separate
 
@@ -96,6 +107,8 @@ content possible.
   when it exceeds `max_chars`, then stitching the audio back seamlessly.
 
 ## Commands
+
+Invoke via `npx @spicadust/agent-ttp <command>`, or as the bare `agent-ttp <command>` after a global install. The grammar below uses the short form.
 
 ```bash
 agent-ttp validate <script.yaml> [--json]

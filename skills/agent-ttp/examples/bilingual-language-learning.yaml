@@ -1,0 +1,78 @@
+title: "Coffee Spanish: Ordering at the Café"
+language: "en-US"                      # default; Spanish example blocks override per-segment
+style: "warm, encouraging language teacher"
+model: "gpt-4o-mini-tts-2025-12-15"
+max_chars: 2000
+
+voices:
+  teacher:
+    voice: cedar
+    instructions: "A warm, patient language teacher. Clear and unhurried."
+  native:
+    voice: marin
+    instructions: "A friendly native Spanish speaker. Natural, everyday pace — a model to imitate."
+
+segments:
+  - id: intro
+    speaker: teacher
+    intent: hook
+    pause_after_ms: 600
+    text: >
+      Today we'll learn just enough Spanish to order a coffee and sound at home
+      doing it. I'll give you each phrase in English first, then you'll hear it
+      spoken naturally. Repeat after the second voice.
+
+  - id: greet-explain
+    speaker: teacher
+    intent: setup
+    pause_after_ms: 400
+    text: >
+      First, the greeting. Walk in and say "good morning" — but really, it's
+      "good day." Listen.
+
+  - id: greet-example
+    speaker: native
+    language: "es-MX"                  # resolves to "Mexican Spanish" in the delivery instruction
+    intent: example
+    pause_after_ms: 1000              # long pause so the learner can repeat
+    text: >
+      Buenos días.
+
+  - id: order-explain
+    speaker: teacher
+    intent: setup
+    pause_after_ms: 400
+    text: >
+      Now the order itself. "A coffee, please." Notice how short and easy it is.
+      Here it is.
+
+  - id: order-example
+    speaker: native
+    language: "es"                     # resolves to "Spanish"
+    intent: example
+    pause_after_ms: 1000
+    text: >
+      Un café, por favor.
+
+  - id: thanks-explain
+    speaker: teacher
+    intent: setup
+    pause_after_ms: 400
+    text: >
+      And when it arrives, two words carry you a long way: "thank you."
+
+  - id: thanks-example
+    speaker: native
+    language: "es"
+    intent: example
+    pause_after_ms: 1000
+    text: >
+      Muchas gracias.
+
+  - id: recap
+    speaker: teacher
+    intent: takeaway
+    text: >
+      That's the whole exchange: a greeting, an order, and a thank you.
+      Three short phrases, and you can order coffee anywhere Spanish is spoken.
+      Practice them once more on your own.

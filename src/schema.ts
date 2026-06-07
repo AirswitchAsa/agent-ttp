@@ -21,6 +21,10 @@ export const DEFAULT_MAX_CHARS = 2000;
 // listenable split into separate beats. The validator warns but never blocks.
 export const RECOMMENDED_MAX_CHARS = 1200;
 
+// Above this, a `pause_after_ms` is almost always a typo (e.g. an extra zero)
+// rather than an intended beat. The validator warns; it never blocks.
+export const MAX_REASONABLE_PAUSE_MS = 5000;
+
 /** Known built-in voices for gpt-4o-mini-tts. Used for warnings only — the */
 /** list drifts over time, so an unknown name is never a hard error. */
 export const KNOWN_VOICES = [
@@ -41,6 +45,60 @@ export const KNOWN_VOICES = [
 
 /** Models that do not support the `instructions` parameter. */
 export const LEGACY_MODELS = ["tts-1", "tts-1-hd"] as const;
+
+// Human-readable spoken-language names for common BCP-47 tags. The TTS model
+// follows a natural-language instruction ("Speak in Mandarin Chinese.") far
+// more reliably than a raw locale code ("Speak in zh-CN."), so the resolved
+// language is rendered through this table. Keys are lowercase; lookup falls
+// back from a full tag (zh-TW) to its base subtag (zh), then to the raw code,
+// so an unlisted language still yields a sensible instruction.
+export const LANGUAGE_NAMES: Record<string, string> = {
+  en: "English",
+  "en-us": "American English",
+  "en-gb": "British English",
+  "en-au": "Australian English",
+  zh: "Mandarin Chinese",
+  "zh-cn": "Mandarin Chinese",
+  "zh-tw": "Taiwanese Mandarin",
+  "zh-hk": "Cantonese",
+  yue: "Cantonese",
+  es: "Spanish",
+  "es-es": "European Spanish",
+  "es-mx": "Mexican Spanish",
+  "es-419": "Latin American Spanish",
+  fr: "French",
+  "fr-ca": "Canadian French",
+  de: "German",
+  it: "Italian",
+  pt: "Portuguese",
+  "pt-br": "Brazilian Portuguese",
+  "pt-pt": "European Portuguese",
+  ja: "Japanese",
+  ko: "Korean",
+  ru: "Russian",
+  hi: "Hindi",
+  ar: "Arabic",
+  nl: "Dutch",
+  pl: "Polish",
+  tr: "Turkish",
+  vi: "Vietnamese",
+  th: "Thai",
+  id: "Indonesian",
+};
+
+/**
+ * Resolve a BCP-47 language tag to a spoken-language name for delivery
+ * instructions. Case-insensitive; falls back full tag -> base subtag -> the
+ * raw input, so an unmapped code still produces "Speak in <code>.".
+ */
+export function languageName(language: string): string {
+  const tag = language.trim().toLowerCase();
+  const exact = LANGUAGE_NAMES[tag];
+  if (exact !== undefined) return exact;
+  const base = LANGUAGE_NAMES[tag.split("-")[0] ?? ""];
+  if (base !== undefined) return base;
+  return language.trim();
+}
 
 // Recognized keys at each level. Anything outside these sets is almost always a
 // typo (e.g. `pause_after` for `pause_after_ms`, or `voice` on a segment instead
@@ -345,6 +403,6 @@ export function resolveSegment(script: Script, segment: Segment): ResolvedSegmen
 function composeInstructions(delivery: string | undefined, language: string | undefined): string {
   const parts: string[] = [];
   if (delivery) parts.push(delivery);
-  if (language) parts.push(`Speak in ${language}.`);
+  if (language) parts.push(`Speak in ${languageName(language)}.`);
   return parts.join(" ").trim();
 }

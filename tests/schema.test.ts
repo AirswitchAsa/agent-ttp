@@ -4,6 +4,7 @@ import {
   DEFAULT_MAX_CHARS,
   DEFAULT_MODEL,
   DEFAULT_VOICE,
+  languageName,
   parseScript,
   resolveSegment,
 } from "../src/schema.ts";
@@ -149,8 +150,8 @@ test("cascade: segment instructions win over voice over script", () => {
   // `language: en` is always appended as its own clause (see next test).
   assert.match(a.instructions ?? "", /^Calm\./); // from voice
   assert.match(b.instructions ?? "", /^Curious\./); // from segment, overriding voice + script
-  assert.match(a.instructions ?? "", /Speak in en\.$/);
-  assert.match(b.instructions ?? "", /Speak in en\.$/);
+  assert.match(a.instructions ?? "", /Speak in English\.$/);
+  assert.match(b.instructions ?? "", /Speak in English\.$/);
   assert.equal(a.voice, "cedar");
   assert.equal(b.voice, "marin");
 });
@@ -167,7 +168,7 @@ test("language is carried even when explicit instructions are present", () => {
   const r = resolveSegment(script, only);
   // Both the explicit delivery direction and the language reach the model.
   assert.match(r.instructions ?? "", /Thoughtful co-host\./);
-  assert.match(r.instructions ?? "", /Speak in es\./);
+  assert.match(r.instructions ?? "", /Speak in Spanish\./);
 });
 
 test("language resolves segment-first, falling back to the script default", () => {
@@ -188,8 +189,8 @@ test("language resolves segment-first, falling back to the script default", () =
   assert.equal(a.language, "en");
   assert.equal(b.language, "es");
   // Resolved language is what reaches the model, via synthesized instructions.
-  assert.match(a.instructions ?? "", /Speak in en\./);
-  assert.match(b.instructions ?? "", /Speak in es\./);
+  assert.match(a.instructions ?? "", /Speak in English\./);
+  assert.match(b.instructions ?? "", /Speak in Spanish\./);
 });
 
 test("synthesizes instructions from style/language when none given", () => {
@@ -205,5 +206,19 @@ test("synthesizes instructions from style/language when none given", () => {
   assert.ok(only);
   const r = resolveSegment(script, only);
   assert.match(r.instructions ?? "", /calm, dense/);
-  assert.match(r.instructions ?? "", /zh-CN/);
+  // The BCP-47 tag is rendered as a natural-language name for the model.
+  assert.match(r.instructions ?? "", /Speak in Mandarin Chinese\./);
+});
+
+test("languageName maps tags, falls back through base subtag, then raw code", () => {
+  assert.equal(languageName("zh-CN"), "Mandarin Chinese");
+  assert.equal(languageName("zh-TW"), "Taiwanese Mandarin");
+  assert.equal(languageName("en-US"), "American English");
+  assert.equal(languageName("ja"), "Japanese");
+  // Case-insensitive.
+  assert.equal(languageName("ZH-tw"), "Taiwanese Mandarin");
+  // Unmapped region falls back to the base subtag.
+  assert.equal(languageName("es-CO"), "Spanish");
+  // Wholly unmapped tag falls back to the raw (trimmed) code.
+  assert.equal(languageName(" xx-YY "), "xx-YY");
 });
