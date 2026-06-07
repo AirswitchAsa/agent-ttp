@@ -1,6 +1,7 @@
 # agent-ttp
 
 Render an **agent-authored YAML podcast script** into a complete, listenable MP3 using OpenAI text-to-speech.
+[episode.mp3](https://github.com/user-attachments/files/28682650/episode.mp3)
 
 This is **not** a raw text-to-speech tool. The model is:
 
