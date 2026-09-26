@@ -6,7 +6,7 @@
 // configuration and the unit of technical chunking.
 
 /** The text-to-speech model used by default when a script omits `model`. */
-export const DEFAULT_MODEL = "gpt-4o-mini-tts-2025-12-15";
+export const DEFAULT_MODEL = "gpt-4o-mini-tts";
 
 /** Default fallback voice when a voice config omits `voice`. */
 export const DEFAULT_VOICE = "cedar";

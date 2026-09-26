@@ -1,7 +1,7 @@
 title: "Coffee Spanish: Ordering at the Café"
 language: "en-US"                      # default; Spanish example blocks override per-segment
 style: "warm, encouraging language teacher"
-model: "gpt-4o-mini-tts-2025-12-15"
+model: "gpt-4o-mini-tts"
 max_chars: 2000
 
 voices:

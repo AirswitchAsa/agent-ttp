@@ -1,7 +1,7 @@
 title: "The Briefing: Why Your Coffee Costs More"
 language: "en-US"
 style: "crisp, news-briefing tone — informed but not breathless"
-model: "gpt-4o-mini-tts-2025-12-15"
+model: "gpt-4o-mini-tts"
 max_chars: 2000
 
 voices:

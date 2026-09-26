@@ -68,7 +68,7 @@ Validate any of them without an API key: `npx @spicadust/agent-ttp validate skil
 title: "Transformer Paper Walkthrough"
 language: "zh-CN"                       # default language; each segment may override
 style: "calm, dense, explanatory"
-model: "gpt-4o-mini-tts-2025-12-15"    # latest gpt-4o-mini-tts snapshot
+model: "gpt-4o-mini-tts"               # optional; uses the current TTS model alias
 max_chars: 2000                         # technical-chunk threshold (≤ 4096)
 
 voices:

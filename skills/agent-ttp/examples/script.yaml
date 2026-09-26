@@ -1,7 +1,7 @@
 title: "What is agent-ttp?"
 language: "en"
 style: "clear, friendly, lightly technical"
-model: "gpt-4o-mini-tts-2025-12-15"
+model: "gpt-4o-mini-tts"
 max_chars: 2000
 
 voices:

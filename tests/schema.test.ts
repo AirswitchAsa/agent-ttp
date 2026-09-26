@@ -2,7 +2,6 @@ import assert from "node:assert/strict";
 import { test } from "node:test";
 import {
   DEFAULT_MAX_CHARS,
-  DEFAULT_MODEL,
   DEFAULT_VOICE,
   languageName,
   parseScript,
@@ -24,7 +23,7 @@ test("parses a valid script and applies defaults", () => {
   const { script, issues } = parseScript(GOOD);
   assert.equal(issues.filter((i) => i.level === "error").length, 0);
   assert.ok(script);
-  assert.equal(script.model, DEFAULT_MODEL);
+  assert.equal(script.model, "gpt-4o-mini-tts");
   assert.equal(script.max_chars, DEFAULT_MAX_CHARS);
   assert.equal(script.segments.length, 2);
 });

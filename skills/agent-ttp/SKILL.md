@@ -59,7 +59,7 @@ When the user hands you a file, treat it as **source material** to rewrite (unle
 title: "Episode title"            # required
 language: "zh-CN"                  # optional DEFAULT language; each segment may override
 style: "calm, dense, explanatory"  # optional; global delivery hint
-model: "gpt-4o-mini-tts-2025-12-15"  # optional; defaults to the latest gpt-4o-mini-tts snapshot
+model: "gpt-4o-mini-tts"             # optional; defaults to the current TTS model alias
 max_chars: 2000                    # optional; technical-chunk threshold (1–4096)
 
 voices:                            # at least one; name -> config
